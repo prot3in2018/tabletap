@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TableTap - Digital Menu Management</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <div class="dm-container">
+    <h1>Digital Menu Management</h1>
+
+    <form class="dm-menu-form" method="post">
+      {% csrf_token %}
+      <select name="menu_category" required>
+        <option value="" disabled selected>Select Category</option>
+        <option value="Appetisers">Appetisers</option>
+        <option value="Soups & Salads">Soups & Salads</option>
+        <option value="Main">Main</option>
+        <option value="Side">Side</option>
+        <option value="Desserts">Desserts</option>
+        <option value="Beverages">Beverages</option>
+      </select>
+      <input type="text" name="item_name" placeholder="Item Name" required>
+      <input type="number" step="0.01" name="item_price" placeholder="Price" required>
+      <textarea name="item_description" placeholder="Description" rows="3"></textarea>
+      <button type="submit">Add Menu Item</button>
+    </form>
+
+    <h2>Current Menu</h2>
+    <div class="dm-categories">
+      {% for category, items in category_items.items %}
+        <div class="dm-category-container">
+          <h3>{{ category }}</h3>
+          <table>
+            <colgroup>
+              <col style="width: 20%;">
+              <col style="width: 20%;">
+              <col style="width: 40%;">
+              <col style="width: 20%;">
+            </colgroup>
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Price</th>
+                <th>Description</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in items %}
+              <tr>
+                <td><div class="dm-description-cell">{{ item.name }}</div></td>
+                <td>${{ item.price }}</td>
+                <td><div class="dm-description-cell">{{ item.description }}</div></td>
+                <td>
+                  <form action="{% url 'delete_menu_item' item.id %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="dm-action-button">Delete</button>
+                  </form>
+                </td>
+              </tr>
+              {% empty %}
+              <tr><td colspan="4">No items</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="dm-back-link">
+      <a href="{% url 'dashboard' %}">Back to Dashboard</a>
+    </div>
+  </div>
+</body>
+</html>

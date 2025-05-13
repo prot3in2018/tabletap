@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Delete Account</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <div class="da-box">
+    <h2>Delete Your Account</h2>
+    <p>This action is irreversible. Please confirm your credentials.</p>
+    {% if messages %}
+      {% for message in messages %}
+        <div class="da-message">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+    <form method="post">
+      {% csrf_token %}
+      <input type="password" name="password" placeholder="Enter your password" required class="da-input"><br>
+      <button type="submit" class="da-button">Delete My Account</button>
+    </form>
+    <div class="da-back-link" style="margin-top: 20px; text-align: center;">
+      <a href="{% url 'dashboard' %}" class="da-cancel-link">Back to Dashboard</a>
+    </div>
+  </div>
+</body>
+</html>

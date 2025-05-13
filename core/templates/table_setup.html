@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TableTap - Table Setup</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <div class="ts-container">
+    <h1>Table Setup</h1>
+    <form class="ts-table-form" action="#" method="post">
+      {% csrf_token %}
+      <input type="number" name="table_count" placeholder="Enter number of tables" required>
+      <button type="submit">Generate QR Codes</button>
+    </form>
+    <div class="ts-qr-section">
+      {% if tables %}
+        <h3>Generated QR Codes:</h3>
+        {% for table in tables %}
+          <div class="ts-qr-item">
+            <p>Table {{ table.number }}</p>
+            <img src="/media/table_qr_{{ table.number }}.png" alt="QR Code for Table {{ table.number }}" width="150" height="150" />
+            <p>
+              <a href="/media/table_qr_{{ table.number }}.png" download="table_qr_{{ table.number }}.png">Download QR Code</a>
+            </p>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p>QR Codes will be displayed here after generation.</p>
+      {% endif %}
+    </div>        
+    <div class="ts-back-link">
+      <a href="{% url 'dashboard' %}">Back to Dashboard</a>
+    </div>
+  </div>
+</body>
+</html>

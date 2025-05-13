@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TableTap - Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body class="db-body">
+  <div class="db-dashboard-container">
+    <h1 class="db-dashboard-header1">Dashboard</h1>
+    <h1 class="db-dashboard-header2">Welcome, {{ username }}!</h1>
+    <div class="db-card-container">
+      <div class="db-card" onclick="location.href='{% url 'menu' %}';">
+        <h2>Digital Menu Creation & Management</h2>
+        <img src="{% static 'menu_image.png' %}" alt="Digital Menu" class="db-card-image" />
+        <p>Manage your menu items.</p>
+      </div>
+      <div class="db-card" onclick="location.href='{% url 'orders' %}';">
+        <h2>Order Management for Staff</h2>
+        <img src="{% static 'order_image.png' %}" alt="Order Management" class="db-card-image" />
+        <p>View and manage incoming customer orders.</p>
+      </div>
+      <div class="db-card" onclick="location.href='{% url 'tables' %}';">
+        <h2>Table Setup</h2>
+        <img src="{% static 'table_setup_image.png' %}" alt="Table Setup" class="db-card-image" />
+        <p>Generate QR codes for each table in your venue.</p>
+      </div>
+    </div>
+    <div class="db-logout-link">
+      <a href="{% url 'logout' %}">Logout</a> | <a href="{% url 'delete_account' %}">Delete Account</a>
+    </div>      
+  </div>
+</body>
+</html>

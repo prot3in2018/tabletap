@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TableTap - Order History</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <div class="oh-container">
+    <h1 class="oh-title">Order History - Table {{ table.number }}</h1>
+
+    {% if orders %}
+        {% for order in orders %}
+            <div class="oh-order">
+                <div class="oh-timestamp">{{ order.timestamp|date:"Y-m-d H:i" }}</div>
+                <div class="oh-order-items oh-right-align">
+                  {% for item in order.items.all %}
+                    <div>
+                      Item: {{ item.menu_item.name }} &nbsp;&nbsp;
+                      Amount: {{ item.quantity }} &nbsp;&nbsp;
+                      Price: ${{ item.menu_item.price|floatformat:2 }}
+                    </div>                    
+                  {% endfor %}
+                  <div style="margin-top: 8px;">
+                    Total: ${{ order.total_price|floatformat:2 }}
+                  </div>
+                </div>                
+            </div>
+        {% endfor %}
+    {% else %}
+        <p class="oh-no-orders">No previous orders found for this session.</p>
+    {% endif %}
+
+    <div class="oh-back-link">
+      <a href="{% url 'table_ordering' table.number %}">Back to Order Page</a>
+    </div>
+  </div>
+</body>
+</html>

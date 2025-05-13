@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Order from Table {{ table.number }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <div class="co-container">
+    <h1 class="co-title">Welcome to Table {{ table.number }}</h1>
+    
+    {% if error %}
+      <p style="color:red; text-align:center; margin-bottom: 20px;">{{ error }}</p>
+    {% endif %}
+
+    <form method="post" id="order-form">
+      {% csrf_token %}
+      
+      {% for category, items in grouped_items.items %}
+        <div class="co-category-block">
+          <h2 class="co-subtitle">{{ category }}</h2>
+          {% for item in items %}
+            <div class="co-item-row">
+              <div class="co-item-info">
+                <div class="co-item-name">{{ item.name }} - ${{ item.price }}</div>
+                <div class="co-item-description">{{ item.description }}</div>
+              </div>
+              <div class="co-item-controls">
+                <input type="number" name="item_{{ item.id }}" min="0" max="20" value="0"
+                       data-price="{{ item.price }}" class="co-qty-input" />
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% endfor %}
+
+      <div class="co-summary-box">
+        Total Items: <strong id="total-qty">0</strong><br/>
+        Total Amount: $<strong id="total-price">0.00</strong>
+      </div>
+
+      <button type="submit" class="co-submit-btn">Place Order</button>
+    </form>
+    <div class="co-history-link">
+      <a href="{% url 'order_history' table.number %}">View Your Order History</a>
+    </div>    
+  </div>
+
+  <script>
+    const qtyInputs = document.querySelectorAll('.co-qty-input');
+    const totalQty = document.getElementById('total-qty');
+    const totalPrice = document.getElementById('total-price');
+
+    function updateTotals() {
+      let totalItems = 0;
+      let totalCost = 0;
+      qtyInputs.forEach(input => {
+        const qty = parseInt(input.value) || 0;
+        const price = parseFloat(input.dataset.price);
+        totalItems += qty;
+        totalCost += qty * price;
+      });
+      totalQty.textContent = totalItems;
+      totalPrice.textContent = totalCost.toFixed(2);
+    }
+
+    qtyInputs.forEach(input => {
+      input.addEventListener('input', updateTotals);
+    });
+
+    updateTotals();
+  </script>
+</body>
+</html>
