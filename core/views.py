@@ -192,7 +192,12 @@ def customer_ordering(request, table_number):
         
         # Loop through all menu items and check if the customer selected a quantity > 0.
         for item in menu_items:
-            qty = int(request.POST.get(f'item_{item.id}', 0))
+            raw_qty = request.POST.get(f'item_{item.id}', '0')
+            try:
+                qty = int(raw_qty)
+            except ValueError:
+                qty = 0
+
             if qty > 0:
                 # Create an OrderItem record for each item with quantity > 0.
                 OrderItem.objects.create(order=order, menu_item=item, quantity=qty)
