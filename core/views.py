@@ -105,28 +105,28 @@ def digital_menu(request):
 def order_management(request):
     # Handle form actions sent via POST.
     if request.method == 'POST':
-        # Complete or cancel a specific order.
         if 'order_id' in request.POST:
             order_id = request.POST.get('order_id')
             action = request.POST.get('action')
-            order = Order.objects.get(id=order_id)
+            # Only fetch the order if it belongs to the current user
+            order = get_object_or_404(Order, id=order_id, table__user=request.user)
             if action == 'complete':
                 order.status = 'Completed'
             elif action == 'cancel':
                 order.status = 'Canceled'
             order.save()
-            
-        # Delete all orders and reset the auto-increment counter.    
+
         elif 'delete_all' in request.POST:
-            Order.objects.all().delete()
+            # Delete only orders that belong to the current user
+            Order.objects.filter(table__user=request.user).delete()
             with connection.cursor() as cursor:
                 cursor.execute("DELETE FROM sqlite_sequence WHERE name='core_order'")
 
         return redirect('order_management')
-    
-    # Get all orders sorted by newest first.
-    orders = Order.objects.all().order_by('-timestamp')
-    # Render the order management page with order data.
+
+    # Filter orders by table owner
+    orders = Order.objects.filter(table__user=request.user).order_by('-timestamp')
+
     return render(request, 'order_management.html', {'orders': orders})
 
 # table_setup view allows users to define the number of tables and generates QR codes for each one.
