@@ -32,8 +32,11 @@ class MenuItem(models.Model):
 # number stores the unique table number.
 # user associates each table with a specific user. If the user delete an account, their tables are deleted as well.
 class Table(models.Model):
-    number = models.PositiveIntegerField(unique=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    number = models.PositiveIntegerField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('user', 'number')
     
     # __str__ returns the table number, otherwise <Table object (1)> appears.
     def __str__(self):
