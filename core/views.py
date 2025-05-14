@@ -263,13 +263,13 @@ def order_submitted(request, order_id):
     })
 
 # order_history shows all past orders by session ID for a specific table.
-def order_history(request, table_number):
+def order_history(request, user_id, table_number):
     # Ensure the session exists.
     if not request.session.session_key:
         request.session.create()
     session_id = request.session.session_key
     # Find the table and retrieve orders by session.
-    table = get_object_or_404(Table, number=table_number)
+    table = get_object_or_404(Table, user__id=user_id, number=table_number)
     orders = Order.objects.filter(table=table, session_id=session_id).order_by('-timestamp')
     
     # Calculate the total price for each order.

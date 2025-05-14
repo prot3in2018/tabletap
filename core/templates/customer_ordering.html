@@ -44,7 +44,7 @@
       <button type="submit" class="co-submit-btn">Place Order</button>
     </form>
     <div class="co-history-link">
-      <a href="{% url 'order_history' table.number %}">View Your Order History</a>
+      <a href="{% url 'order_history' table.user.id table.number %}">View Your Order History</a>
     </div>    
   </div>
 
