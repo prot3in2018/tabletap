@@ -13,6 +13,11 @@ body {
     color: #007BFF;
     text-align: center;
   }
+  .error-msg {
+    color: red;
+    text-align: center;
+    margin-bottom: 20px;
+  }  
   
   /* Customer Ordering CSS */
   .co-container {
