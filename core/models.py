@@ -51,6 +51,7 @@ class Order(models.Model):
     table = models.ForeignKey(Table, on_delete=models.CASCADE)
     session_id = models.CharField(max_length=255, null=True, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
+    user_order_number = models.PositiveIntegerField(null=True)
     status = models.CharField(max_length=20, choices=[
         ('Pending', 'Pending'),
         ('Completed', 'Completed'),

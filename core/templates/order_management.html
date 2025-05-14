@@ -14,7 +14,7 @@
       {% for order in orders %}
         <div class="om-order">
           <div class="om-order-header">
-            <strong>Order #{{ order.id }}</strong>
+            <strong>Order #{{ order.user_order_number }}</strong>
             <span>Table {{ order.table.number }} | {{ order.timestamp|date:"Y-m-d H:i" }}</span>
           </div>
           <ul class="om-order-items">

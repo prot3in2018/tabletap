@@ -9,7 +9,7 @@
 <body>
   <div class="os-box">
     <h1>Order Submitted!</h1>
-    <p>Your order (#{{ order_id }}) has been received.</p>
+    <p>Your order (#{{ order.user_order_number }}) has been received.</p>
     <a href="{% url 'customer_ordering' user_id table_number %}" class="os-button">Order More</a>
   </div>
 </body>

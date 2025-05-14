@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
+from django.db.models import Max
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from .models import MenuItem, Order, OrderItem, Table
@@ -201,9 +202,15 @@ def customer_ordering(request, user_id, table_number):
         session_id = request.session.session_key
         
         # Create a new Order object linked to the current table and session.
-        order = Order.objects.create(table=table, session_id=session_id)
+        latest = Order.objects.filter(table__user=table.user).aggregate(Max('user_order_number'))['user_order_number__max']
+        next_order_number = latest + 1 if latest else 1
+
+        order = Order.objects.create(
+            table=table,
+            session_id=session_id,
+            user_order_number=next_order_number
+        )
         total_quantity = 0
-        
         # Loop through all menu items and check if the customer selected a quantity > 0.
         for item in menu_items:
             raw_qty = request.POST.get(f'item_{item.id}', '0')
@@ -253,13 +260,12 @@ def delete_menu_item(request, item_id):
 def order_submitted(request, order_id):
     # Get the order and related table number.
     order = get_object_or_404(Order, id=order_id)
-    table_number = order.table.number
-    user_id = order.table.user.id
     # Show confirmation with order ID and table number.
     return render(request, 'order_submitted.html', {
         'order_id': order_id,
-        'table_number': table_number,
-        'user_id': user_id,
+        'table_number': order.table.number,
+        'user_id': order.table.user.id,
+        'order': order
     })
 
 # order_history shows all past orders by session ID for a specific table.
