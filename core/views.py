@@ -139,7 +139,7 @@ def table_setup(request):
         for i in range(1, table_count + 1):
             table = Table.objects.create(number=i, user=request.user)
 
-            qr_url = f"http://192.168.4.48:8000/order/table/{table.number}/"
+            qr_url = f"https://tabletap.onrender.com/order/table/{table.number}/"
             qr = qrcode.make(qr_url)
             qr_path = os.path.join(settings.MEDIA_ROOT, f"table_qr_{table.number}.png")
             qr.save(qr_path)
