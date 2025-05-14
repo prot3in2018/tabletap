@@ -10,13 +10,6 @@
   <div class="da-box">
     <h2>Delete Your Account</h2>
     <p>This action is irreversible. Please confirm your credentials.</p>
-    {% if messages %}
-      {% for message in messages %}
-        {% if "account" in message.tags %}
-          <div class="da-message">{{ message }}</div>
-        {% endif %}
-      {% endfor %}  
-    {% endif %}
     <form method="post">
       {% csrf_token %}
       <input type="password" name="password" placeholder="Enter your password" required class="da-input"><br>
