@@ -646,6 +646,18 @@ body {
     margin-bottom: 10px;
     text-align: center;
   }
+  .ts-delete-btn button{
+    width: 100%;
+    padding: 10px;
+    background-color: #007BFF;
+    border: none;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .ts-delete-btn button:hover {
+    background-color: #0056b3;
+  }
   .ts-back-link {
     text-align: center;
     margin-top: 20px;

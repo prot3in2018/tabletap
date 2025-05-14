@@ -30,7 +30,11 @@
       {% else %}
         <p>QR Codes will be displayed here after generation.</p>
       {% endif %}
-    </div>        
+    </div>
+    <form method="post" action="{% url 'delete_tables' %}" class="ts-delete-btn">
+      {% csrf_token %}
+      <button type="submit">Delete All QR Codes</button>
+    </form>
     <div class="ts-back-link">
       <a href="{% url 'dashboard' %}">Back to Dashboard</a>
     </div>

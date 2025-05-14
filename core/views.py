@@ -280,3 +280,15 @@ def delete_account(request):
             messages.error(request, "Incorrect password.")
 
     return render(request, 'delete_account.html')
+
+@login_required
+def delete_tables(request):
+    if request.method == 'POST':
+        tables = Table.objects.filter(user=request.user)
+        for table in tables:
+            qr_path = os.path.join(settings.MEDIA_ROOT, f"table_qr_{table.number}.png")
+            if os.path.exists(qr_path):
+                os.remove(qr_path)
+        tables.delete()
+        messages.success(request, "All tables and QR codes deleted.")
+    return redirect('tables')

@@ -39,5 +39,6 @@ urlpatterns = [
     path('orders/', views.order_management, name='order_management'),
     path('order/history/<int:table_number>/', views.order_history, name='order_history'),
     path('account/delete/', views.delete_account, name='delete_account'),
-    path('login/', auth_views.LoginView.as_view(template_name='index.html'), name='login')
+    path('login/', auth_views.LoginView.as_view(template_name='index.html'), name='login'),
+    path('tables/delete/', views.delete_tables, name='delete_tables'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
