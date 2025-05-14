@@ -10,7 +10,7 @@
   <div class="os-box">
     <h1>Order Submitted!</h1>
     <p>Your order (#{{ order_id }}) has been received.</p>
-    <a href="{% url 'table_ordering' table_number %}" class="os-button">Order More</a>
+    <a href="{% url 'customer_ordering' user_id table_number %}" class="os-button">Order More</a>
   </div>
 </body>
 </html>

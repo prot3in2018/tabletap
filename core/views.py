@@ -254,10 +254,12 @@ def order_submitted(request, order_id):
     # Get the order and related table number.
     order = get_object_or_404(Order, id=order_id)
     table_number = order.table.number
+    user_id = order.table.user.id
     # Show confirmation with order ID and table number.
     return render(request, 'order_submitted.html', {
         'order_id': order_id,
-        'table_number': table_number
+        'table_number': table_number,
+        'user_id': user_id,
     })
 
 # order_history shows all past orders by session ID for a specific table.
