@@ -143,7 +143,7 @@ def table_setup(request):
         for i in range(1, table_count + 1):
             table = Table.objects.create(number=i, user=request.user)
 
-            qr_url = f"https://tabletap.onrender.com/order/table/{table.number}/"
+            qr_url = f"https://tabletap.onrender.com/order/table/{request.user.id}/{table.number}/"
             qr = qrcode.make(qr_url)
             qr_path = os.path.join(settings.MEDIA_ROOT, f"table_qr_{table.number}.png")
             qr.save(qr_path)
@@ -155,9 +155,9 @@ def table_setup(request):
     return render(request, 'table_setup.html', {'tables': tables})
 
 # customer_ordering view allows customers to place orders by scanning a table-specific QR code.
-def customer_ordering(request, table_number):
+def customer_ordering(request, user_id, table_number):
     # Get the Table object using the table number in the URL, or return 404 if not found.
-    table = get_object_or_404(Table, number=table_number)
+    table = get_object_or_404(Table, user__id=user_id, number=table_number)
     # Retrieve all menu items created by the table's owner, sorted by category and name.
     menu_items = MenuItem.objects.filter(user=table.user).order_by('category', 'name')
     
