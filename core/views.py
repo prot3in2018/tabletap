@@ -24,6 +24,10 @@ def index(request):
         # If valid, the user is logged in and redirected to the dashboard.
         if user is not None:
             login(request, user)
+            # Clear any messages from a previous user/session
+            from django.contrib.messages import get_messages
+            list(get_messages(request))
+            
             return redirect('dashboard')
         # If login fails, show the login page again with an error message.
         else:
