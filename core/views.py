@@ -134,8 +134,17 @@ def order_management(request):
 def table_setup(request):
     # If the form is submitted via POST, generate QR codes.
     if request.method == 'POST':
-        # Get the number of tables from the form.
-        table_count = int(request.POST.get('table_count'))
+        try:
+            table_count = int(request.POST.get('table_count'))
+            if table_count <= 0:
+                raise ValueError
+        except (ValueError, TypeError):
+            tables = Table.objects.filter(user=request.user).order_by('number')
+            return render(request, 'table_setup.html', {
+                'tables': tables,
+                'error': "Please enter a valid number greater than 0."
+            })
+                    
         # Delete any existing tables for this user.
         Table.objects.filter(user=request.user).delete()
         
@@ -286,7 +295,9 @@ def delete_account(request):
             return redirect('signup')
         else:
             # Show an error message if the password is incorrect.
-            messages.error(request, "Incorrect password.", extra_tags="account")
+            return render(request, 'delete_account.html', {
+                'error': "Incorrect password."
+            })
 
     return render(request, 'delete_account.html')
 

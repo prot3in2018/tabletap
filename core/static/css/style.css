@@ -242,7 +242,7 @@ body {
   button.da-button:hover {
     background-color: #0056b3;
   }
-  .da-message {
+  .da-error {
     color: red;
     margin-top: 10px;
   }
@@ -637,6 +637,12 @@ body {
   .ts-table-form button:hover {
     background-color: #0056b3;
   }
+  .ts-error {
+    color: red;
+    text-align: center;
+    margin-bottom: 15px;
+    font-weight: bold;
+  }  
   .ts-qr-section {
     margin-top: 20px;
   }

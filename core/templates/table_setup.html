@@ -10,6 +10,10 @@
 <body>
   <div class="ts-container">
     <h1>Table Setup</h1>
+    {% if error %}
+      <div class="ts-error">{{ error }}</div>
+    {% endif %}
+
     <form class="ts-table-form" action="#" method="post">
       {% csrf_token %}
       <input type="number" name="table_count" placeholder="Enter number of tables" required>
