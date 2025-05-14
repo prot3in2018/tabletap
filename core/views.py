@@ -145,6 +145,7 @@ def table_setup(request):
 
             qr_url = f"https://tabletap.onrender.com/order/table/{request.user.id}/{table.number}/"
             qr = qrcode.make(qr_url)
+            os.makedirs(settings.MEDIA_ROOT, exist_ok=True)
             qr_path = os.path.join(settings.MEDIA_ROOT, f"table_qr_{table.number}.png")
             qr.save(qr_path)
 
