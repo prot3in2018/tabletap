@@ -278,11 +278,11 @@ def delete_account(request):
             user = request.user
             request.user.delete()
             logout(request)
-            messages.success(request, "Your account has been deleted.")
+            messages.success(request, "Your account has been deleted.", extra_tags="account")
             return redirect('signup')
         else:
             # Show an error message if the password is incorrect.
-            messages.error(request, "Incorrect password.")
+            messages.error(request, "Incorrect password.", extra_tags="account")
 
     return render(request, 'delete_account.html')
 
@@ -295,5 +295,5 @@ def delete_tables(request):
             if os.path.exists(qr_path):
                 os.remove(qr_path)
         tables.delete()
-        messages.success(request, "All tables and QR codes deleted.")
+        messages.success(request, "All tables and QR codes deleted.", extra_tags="qr")
     return redirect('tables')

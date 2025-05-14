@@ -12,8 +12,10 @@
     <p>This action is irreversible. Please confirm your credentials.</p>
     {% if messages %}
       {% for message in messages %}
-        <div class="da-message">{{ message }}</div>
-      {% endfor %}
+        {% if "account" in message.tags %}
+          <div class="da-message">{{ message }}</div>
+        {% endif %}
+      {% endfor %}  
     {% endif %}
     <form method="post">
       {% csrf_token %}
