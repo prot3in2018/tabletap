@@ -7,12 +7,14 @@ from django.conf import settings
 from .models import MenuItem, Order, OrderItem, Table
 from collections import defaultdict
 from django.views.decorators.http import require_GET
+from django.views.decorators.cache import never_cache
 from django.db import connection
 from django.contrib import messages
 import qrcode
 import os
 
 # index function handles both login form submission and initial page load.
+@never_cache
 def index(request):
     # Check if the login form was submitted.
     if request.method == 'POST':
