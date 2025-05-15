@@ -91,8 +91,6 @@ def order_management(request):
 
         elif 'delete_all' in request.POST:
             Order.objects.filter(table__user=request.user).delete()
-            with connection.cursor() as cursor:
-                cursor.execute("DELETE FROM sqlite_sequence WHERE name='core_order'")
 
         return redirect('order_management')
 
