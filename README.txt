@@ -4,11 +4,9 @@ TableTap is a web-based restaurant ordering system that allows:
 3. staff to manage order
 4. customers to place orders by scanning QR codes at their table
 
-Setup Instructions:
-1. Clone or download the repository.
-2. Navigate to the project folder: cd tabletap
-3. Run the server: python manage.py runserver
-4. Visit http://localhost:8000 in your browser.
+Instructions:
+visit https://tabletap.onrender.com/
+(It might take a while for the setup)
 
 High-level view of each page:
 - Dashboard: Central hub linking to all main features.
@@ -20,7 +18,5 @@ High-level view of each page:
 - Account Management: Users can sign up, log in, and delete their accounts.
 
 AI Usage Declaration:
-ChatGPT was used to:
-- Generate  images used in the dashboard (Digital Menu Creation & Management/Order Management for Staff/Table Setup)
-- Generate explanations for Python code
-No direct copy-paste of AI work was used in final submission without manual rewriting or inderstanding.
+ChatGPT was used to generate images used in the dashboard (Digital Menu Creation & Management/Order Management for Staff/Table Setup)
+No direct copy-paste of AI work was used in the final submission without manual rewriting or understanding.

@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import dj_database_url # type: ignore
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -75,13 +76,21 @@ WSGI_APPLICATION = 'tabletap.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if os.environ.get("DATABASE_URL"):
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=os.environ.get('DATABASE_URL'),
+            conn_max_age=600,
+            ssl_require=True
+        )
     }
-}
-
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -136,9 +145,7 @@ LOGIN_URL = '/'
 
 LOGIN_REDIRECT_URL = '/dashboard/'
 
-# MEDIA_URL is the URL prefix for media files (e.g., uploaded QR codes).
 MEDIA_URL = '/media/'
-# MEDIA_ROOT is the file system path where media files are stored.
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 TIME_ZONE = 'Australia/Brisbane'
